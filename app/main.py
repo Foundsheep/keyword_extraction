@@ -14,8 +14,9 @@ def hello_world():
 
 @app.post("/url-keyword")
 def get_keyword_from_url(info: News2Keywords):
-    url_list = info.url_list
-    keywords_list = news2key.run(url_list=url_list)
+    keywords_list = news2key.run(url_list=info.url_list,
+                                 threshold=info.threshold,
+                                 top_n=info.top_n)
     return keywords_list
 
 @app.post("/sentence-keyword")

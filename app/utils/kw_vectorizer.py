@@ -11,7 +11,7 @@ def get_vectorizer():
     # 3. 중복으로 발견 시 CountVectorizer를 통한 나타나는 횟수 중요도 파악을 위해 중복 허용
     def __get_law_related_words(text):
         text = text.strip()
-        words = re.findall(r"[0-9가-힣]+법\b|'[0-9가-힣].+?법\b'", text)
+        words = re.findall(r"[0-9가-힣]+법\b|'[0-9가-힣 ]+법'\b", text)
         words = [word.replace("'", "") if "'" in word else word for word in words] # quote removed
         # words = list(set(words)) # remove duplicates just in case
         return words
