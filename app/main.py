@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .models.key_bert import get_dummy_model, count_parameters, get_keybert
 from .data_models.models import *
-from .scripts import news2key
+from .scripts import news2key, sen2key
 
 app = FastAPI()
 
@@ -20,5 +20,8 @@ def get_keyword_from_url(info: News2Keywords):
     return keywords_list
 
 @app.post("/sentence-keyword")
-def get_keyword_from_sentences():
-    return {"result": "OK"}
+def get_keyword_from_sentences(info: Sentence2Keywords):
+    keywords_list = sen2key.run(text_list=info.text_list,
+                                threshold=info.threshold,
+                                top_n=info.top_n)
+    return keywords_list

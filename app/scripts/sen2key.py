@@ -1,13 +1,9 @@
 from ..utils.parser import get_text_from_url
 from ..utils.extractor import extract_keywords_by_keybert_with_law_names
 
-def run(url_list, threshold=0.0, top_n=10):
+def run(text_list, threshold=0.0, top_n=10):
     keywords_list = []
-    for url in url_list:
-        print(f"{url = }")
-
-        # TODO: try, except to catch the url provided doesn't match the naver news html structure
-        text = get_text_from_url(url)
+    for text in text_list:
         keywords = extract_keywords_by_keybert_with_law_names(text, top_n, threshold)
 
         # set to the output format
