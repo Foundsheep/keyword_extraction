@@ -27,6 +27,7 @@ def calculate_new_top_n(law_names, top_n):
     
     return top_n
 
+# TODO: sklearn warning to be depressed...?
 def extract_keywords_by_keybert_with_law_names(text, top_n, threshold):
     law_names = get_law_names(text)
     top_n = calculate_new_top_n(law_names, top_n)
@@ -47,5 +48,3 @@ def extract_keywords_by_keybert_with_law_names(text, top_n, threshold):
     keywords = list(set(keywords))
     
     return keywords
-
-    

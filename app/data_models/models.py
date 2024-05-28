@@ -10,3 +10,6 @@ class Sentence2Keywords(BaseModel):
     text_list: Union[List[str], None] = None
     threshold: float = None
     top_n: int = None
+
+class SimilarWords(BaseModel):
+    text: str = None

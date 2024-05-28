@@ -1,6 +1,7 @@
 from .kw_vectorizer import get_vectorizer
 import json
 import os
+import urllib3
 
 vectorizer = get_vectorizer()
 
@@ -12,3 +13,7 @@ json_path = os.path.join(cur_dir, file_name)
 with open(json_path, "r") as f:
     data = json.load(f)
     print(f"law names are loaded successfully from {json_path}")
+
+
+# PoolManager
+http = urllib3.PoolManager()

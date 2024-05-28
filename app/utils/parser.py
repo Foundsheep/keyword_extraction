@@ -3,11 +3,8 @@ import requests
 from time import time
 from bs4 import BeautifulSoup
 
-from . import data
-
-def get_dummy_sentence():
-    sentence = "(서울=연합뉴스) 김잔디 오진송 권지현 기자 = '빅5'로 불리는 서울시내 주요 대형병원 중 서울대병원과 서울아산병원에 이어 나머지 병원도 주 1회 전면 휴진에 동참할 가능성이 커지고 있다."
-    return sentence
+from . import data, http
+from ..configuration import Config
 
 
 def get_text_from_url(url):
@@ -33,6 +30,8 @@ def get_text_from_url(url):
 # 3. 중복으로 발견 시 CountVectorizer를 통한 나타나는 횟수 중요도 파악을 위해 중복 허용
 def get_law_words_by_regex(text):
     text = text.strip()
+
+    # TODO: 법령 추가
     words = re.findall(r"[0-9가-힣]+법\b|'[0-9가-힣 ]+법'\b", text)
     words = [word.replace("'", "") if "'" in word else word for word in words] # quote removed
     
@@ -68,3 +67,4 @@ def get_law_words_by_json(text):
     # remove duplicates
     result_list = list(set(result_list))
     return result_list
+
