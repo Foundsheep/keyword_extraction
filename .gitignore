@@ -162,3 +162,6 @@ cython_debug/
 
 # unnecessary large files
 notebooks/
+
+# large models
+app/models/*/
