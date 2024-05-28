@@ -13,3 +13,7 @@ class Sentence2Keywords(BaseModel):
 
 class SimilarWords(BaseModel):
     text: str = None
+
+class EmbeddingSimilarity(BaseModel):
+    text_1: str = None
+    text_2: str = None

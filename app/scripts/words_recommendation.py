@@ -1,5 +1,5 @@
-from ..utils.api_caller import get_similar_words_from_wwn_api
-from ..utils.kw_vectorizer import tokenize_kr
+from ..utils.util_keywords_extraction import tokenize_kr
+from ..utils.util_words_recommendation import get_similar_words_from_wwn_api
 
 def run(text):
     words = tokenize_kr(text)
@@ -10,3 +10,4 @@ def run(text):
         return_list.extend(keywords)
         
     return return_list
+

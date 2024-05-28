@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from .data_models.models import *
-from .scripts import news2key, sen2key, word_recommend
+from .scripts import contexts_similarity, keywords_from_news, keywords_from_sentences, words_recommendation
+import warnings
+
+warnings.filterwarnings('ignore')
 
 app = FastAPI()
 
@@ -11,19 +14,26 @@ def hello_world():
 
 @app.post("/url-keywords")
 def get_keyword_from_url(info: News2Keywords):
-    keywords_list = news2key.run(url_list=info.url_list,
+    keywords_list = keywords_from_news.run(url_list=info.url_list,
                                  threshold=info.threshold,
                                  top_n=info.top_n)
     return keywords_list
 
 @app.post("/sentence-keywords")
 def get_keyword_from_sentences(info: Sentence2Keywords):
-    keywords_list = sen2key.run(text_list=info.text_list,
+    keywords_list = keywords_from_sentences.run(text_list=info.text_list,
                                 threshold=info.threshold,
                                 top_n=info.top_n)
     return keywords_list
 
 @app.post("/similar-words")
 def get_similar_words_from_text(info: SimilarWords):
-    words_list = word_recommend.run(text=info.text)
+    words_list = words_recommendation.run(text=info.text)
     return words_list
+
+@app.post("/similarity")
+def get_similar_words_from_text(info: EmbeddingSimilarity):
+    score = contexts_similarity.run(sentence_1=info.text_1,
+                                   sentence_2=info.text_2)
+    return score
+

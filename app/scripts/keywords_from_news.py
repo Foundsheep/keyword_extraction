@@ -1,5 +1,4 @@
-from ..utils.parser import get_text_from_url
-from ..utils.extractor import extract_keywords_by_keybert_with_law_names
+from ..utils.util_keywords_extraction import extract_keywords_by_keybert_with_law_names, get_text_from_url
 
 def run(url_list, threshold=0.0, top_n=10):
     keywords_list = []
