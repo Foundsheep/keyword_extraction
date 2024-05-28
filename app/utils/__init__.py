@@ -11,6 +11,5 @@ with open(json_path, "r") as f:
     data = json.load(f)
     print(f"law names are loaded successfully from {json_path}")
 
-
 # PoolManager
 http = urllib3.PoolManager()

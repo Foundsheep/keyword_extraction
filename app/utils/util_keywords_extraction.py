@@ -30,12 +30,17 @@ def get_text_from_url(url):
 
 # 1. '법' 검출 제외
 # 2. '이태원참사 특별법' 같은 띄어쓰기 포함 법 검출
-# 3. 중복으로 발견 시 CountVectorizer를 통한 나타나는 횟수 중요도 파악을 위해 중복 허용
 def get_law_words_by_regex(text):
     text = text.strip()
 
-    # TODO: 법령 추가
-    words = re.findall(r"[0-9가-힣]+법\b|'[0-9가-힣 ]+법'\b", text)
+    # 1. ~~~법
+    # 2. '~~ 법'
+    words = re.findall(r"[0-9가-힣]+법\b|'[0-9가-힣 ]+법'", text)
+
+    # 1, 2 -> 법령
+    words += re.findall(r"[0-9가-힣]+법령\b|'[0-9가-힣 ]+법령'", text)
+
+    # 후처리
     words = [word.replace("'", "") if "'" in word else word for word in words] # quote removed
     
     # remove duplicates
@@ -105,7 +110,6 @@ def calculate_new_top_n(law_names, top_n):
     
     return top_n
 
-# TODO: sklearn warning to be depressed...?
 vectorizer = CountVectorizer(tokenizer=tokenize_kr)
 def extract_keywords_by_keybert_with_law_names(text, top_n, threshold):
     law_names = get_law_names(text)

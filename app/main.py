@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from .data_models.models import *
 from .scripts import contexts_similarity, keywords_from_news, keywords_from_sentences, words_recommendation
 import warnings
+from .utils.util_keywords_extraction import get_law_words_by_regex, get_text_from_url
 
 warnings.filterwarnings('ignore')
 
@@ -37,3 +38,9 @@ def get_similar_words_from_text(info: EmbeddingSimilarity):
                                    sentence_2=info.text_2)
     return score
 
+
+@app.post("/test")
+def test(info: News2Keywords):
+    text = get_text_from_url(info.url_list[0])
+    words = get_law_words_by_regex(text=text)
+    return words
