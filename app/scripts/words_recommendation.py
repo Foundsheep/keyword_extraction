@@ -2,7 +2,9 @@ from ..utils.util_keywords_extraction import tokenize_kr
 from ..utils.util_words_recommendation import get_similar_words_from_naver_ad_api, get_similar_words_from_wwn_api
 from . import contexts_similarity as cs
 
-def run(text, threshold=0.3, top_n=10):
+import numpy as np
+
+def run(text, threshold, top_n):
 
     # 하나의 문장 형태로 들어온다면 tokenize
     if len(text.strip().split()) > 1:
@@ -39,12 +41,23 @@ def run(text, threshold=0.3, top_n=10):
 
     print(f"2nd stage... {len(keyword_list) = }")
     return_list = []
+    score_list = []
     for recommended_word in keyword_list:
         score = cs.run(text, recommended_word)
         if score >= threshold:
             return_list.append(recommended_word)
+            score_list.append(score)
             print(f"recommended_word({recommended_word}) added in the final list with score [{score :.2f}]")
     print(f"After 2nd stage... {len(return_list) = }")        
+
+    # score순으로 sort
+    score_arr = np.array(score_list)
+    score_indices = np.argsort(score_arr)[::-1]
+    return_list = np.array(return_list)
+    return_list = return_list[score_indices]
+
+    # top_n으로 자르기
     return_list = return_list[:top_n]
+    return_list = list(return_list)
     return return_list
 
