@@ -8,11 +8,6 @@ warnings.filterwarnings('ignore')
 
 app = FastAPI()
 
-
-@app.get("/")
-def hello_world():
-    return {"message": "OK"}
-
 @app.post("/url-keywords")
 def get_keyword_from_url(info: News2Keywords):
     keywords_list = keywords_from_news.run(url_list=info.url_list,
@@ -27,6 +22,7 @@ def get_keyword_from_sentences(info: Sentence2Keywords):
                                 top_n=info.top_n)
     return keywords_list
 
+# TODO: threshold, top_n 
 @app.post("/similar-words")
 def get_similar_words_from_text(info: SimilarWords):
     words_list = words_recommendation.run(text=info.text)
@@ -38,9 +34,3 @@ def get_similar_words_from_text(info: EmbeddingSimilarity):
                                    sentence_2=info.text_2)
     return score
 
-
-@app.post("/test")
-def test(info: News2Keywords):
-    text = get_text_from_url(info.url_list[0])
-    words = get_law_words_by_regex(text=text)
-    return words
