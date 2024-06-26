@@ -1,3 +1,4 @@
+import traceback
 from ..utils.util_keywords_extraction import tokenize_kr
 from ..utils.util_words_recommendation import get_similar_words_from_naver_ad_api, get_similar_words_from_wwn_api
 from . import contexts_similarity as cs
@@ -50,5 +51,6 @@ def run(text, threshold=0.3, top_n=10):
     
     except Exception as e:
         print(e)
+        traceback.print_exc()
     return return_list
 

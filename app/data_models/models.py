@@ -17,5 +17,5 @@ class SimilarWords(BaseModel):
     top_n: int = 10
 
 class EmbeddingSimilarity(BaseModel):
-    text_1: str = None
-    text_2: str = None
+    text_source: Union[List[str], None] = None
+    text_targets: Union[List[str], None] = None

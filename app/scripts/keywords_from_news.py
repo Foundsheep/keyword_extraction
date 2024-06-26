@@ -1,3 +1,4 @@
+import traceback
 from ..utils.util_keywords_extraction import extract_keywords_by_keybert_with_law_names, get_text_from_url
 
 def run(url_list, threshold=0.0, top_n=10):
@@ -16,4 +17,5 @@ def run(url_list, threshold=0.0, top_n=10):
             keywords_list.append(concatenated_keywords)
     except Exception as e:
         print(e)
+        traceback.print_exc()
     return keywords_list

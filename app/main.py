@@ -30,7 +30,7 @@ def get_similar_words_from_text(info: SimilarWords):
 
 @app.post("/similarity")
 def get_similar_words_from_text(info: EmbeddingSimilarity):
-    score = contexts_similarity.run(sentence_1=info.text_1,
-                                   sentence_2=info.text_2)
+    score = contexts_similarity.run(text_source=info.text_source,
+                                    text_targets=info.text_targets)
     return score
 
