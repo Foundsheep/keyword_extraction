@@ -25,7 +25,9 @@ def get_keyword_from_sentences(info: Sentence2Keywords):
 # TODO: threshold, top_n 
 @app.post("/similar-words")
 def get_similar_words_from_text(info: SimilarWords):
-    words_list = words_recommendation.run(text=info.text)
+    words_list = words_recommendation.run(text=info.text,
+                                          threshold=info.threshold,
+                                          top_n=info.top_n)
     return words_list
 
 @app.post("/similarity")

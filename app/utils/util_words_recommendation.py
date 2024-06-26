@@ -8,10 +8,11 @@ import base64
 
 import time
 import requests
+import traceback
 
 def get_similar_words_from_wwn_api(word, top_n):
 
-    print(f"word to api : [{word}]")
+    print(f"word to api : '{word}'")
     return_list = []
 
     # info setting
@@ -119,8 +120,9 @@ def get_similar_words_from_naver_ad_api(word, top_n=10):
                 rel_keyword = keywords[i]["relKeyword"]
                 return_list.append(rel_keyword)
         except Exception as e:
-            print(e)
             print(f"[{i+1}]th element caused an error. {len(return_list) = }")
+            print(e)
+            traceback.print_exc()
     
     else:
         print(f"{r.status_code = }")
