@@ -1,0 +1,24 @@
+services:
+  api:
+    image: api-image
+    build: .
+    ports:
+      - '8000:8000'
+      - '5678:5678'
+    restart: "always"
+    container_name: ke_service
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+          target: /code
+          ignore: 
+            - /code/notebooks/
+    #   resources:
+    #     limits:
+    #       cpus: '10'
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '10'
+    command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 8000"]
