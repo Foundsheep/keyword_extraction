@@ -2,6 +2,7 @@
 import re
 import requests
 from time import time
+import traceback
 from bs4 import BeautifulSoup
 from kiwipiepy import Kiwi
 from sklearn.feature_extraction.text import CountVectorizer
@@ -112,12 +113,30 @@ def calculate_new_top_n(law_names, top_n):
 
 vectorizer = CountVectorizer(tokenizer=tokenize_kr)
 def extract_keywords_by_keybert_with_law_names(text, top_n, threshold):
-    law_names = get_law_names(text)
-    top_n = calculate_new_top_n(law_names, top_n)
+
+    # get_law_names uses crawling, and if the website is not from
+    # original naver news, then it would throw and error
+    # due to the difference in html tag architectures.
+    try:
+        law_names = get_law_names(text)
+        top_n = calculate_new_top_n(law_names, top_n)
+
+    except Exception as e:
+        print(e)
+        traceback.print_exc()
+
+        law_names = []
 
     # use keybert
-    keywords_tuple = kw_model.extract_keywords(text, vectorizer=vectorizer, top_n=top_n)
-    
+    # keybert returns None, when [] is given as an input
+    # and None causes an error in for loop below because it's not iterable
+    try:
+        keywords_tuple = kw_model.extract_keywords(text, vectorizer=vectorizer, top_n=top_n)
+    except Exception as e:
+        print(e)
+        traceback.print_exc()
+        keywords_tuple = []
+
     keywords = []
     for tup in keywords_tuple:
         if tup[1] >= threshold:
